@@ -9,7 +9,12 @@ router.use(authMiddleware);
 // GET /api/courses — teacher's own courses
 router.get('/', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
   const { rows } = await pool.query(
-    `SELECT c.*, COUNT(e.id)::int AS enrollment_count
+    `SELECT c.*, COUNT(DISTINCT e.id)::int AS enrollment_count,
+       EXISTS (
+         SELECT 1 FROM sessions s
+         WHERE s.course_id = c.id AND s.ended_at IS NULL
+       ) AS has_live_session,
+       (SELECT s.id FROM sessions s WHERE s.course_id = c.id AND s.ended_at IS NULL LIMIT 1) AS live_session_id
      FROM courses c
      LEFT JOIN enrollments e ON e.course_id = c.id
      WHERE c.teacher_id = $1
@@ -74,7 +79,7 @@ router.delete('/:id', requireRole('teacher'), async (req: AuthRequest, res: Resp
 // GET /api/courses/:id/students — list enrolled students (teacher)
 router.get('/:id/students', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
   const { rows } = await pool.query(
-    `SELECT u.id, u.name, u.email, u.reg_no, u.major, u.semester, e.enrolled_at
+    `SELECT u.id, u.name, u.email, NULL as reg_no, NULL as major, NULL as semester, e.enrolled_at
      FROM enrollments e
      JOIN users u ON u.id = e.student_id
      WHERE e.course_id = $1`,

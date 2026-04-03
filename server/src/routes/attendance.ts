@@ -98,7 +98,7 @@ router.post('/mark', requireRole('student'), async (req: AuthRequest, res: Respo
 router.get('/session/:sessionId', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
   try {
     const { rows } = await pool.query(
-      `SELECT a.*, u.name AS student_name, u.email AS student_email, u.reg_no
+      `SELECT a.*, u.name AS student_name, u.email AS student_email, NULL as reg_no
        FROM attendance a
        JOIN users u ON u.id = a.student_id
        WHERE a.session_id = $1

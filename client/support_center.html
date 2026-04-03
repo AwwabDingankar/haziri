@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Haziri Support Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#ffb695",
+              "on-tertiary-container": "#ffd2be",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#464555",
+              "on-background": "#191c1d",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed-variant": "#7b2f00",
+              "inverse-on-surface": "#f0f1f2",
+              "tertiary-container": "#a44100",
+              "surface-variant": "#e1e3e4",
+              "surface-tint": "#4d44e3",
+              "secondary-fixed-dim": "#c3c0ff",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#e2dfff",
+              "primary-container": "#4f46e5",
+              "surface-bright": "#f8f9fa",
+              "on-primary-fixed-variant": "#3323cc",
+              "on-secondary-fixed-variant": "#413f82",
+              "tertiary-fixed": "#ffdbcc",
+              "secondary": "#58579b",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "tertiary": "#7e3000",
+              "surface-dim": "#d9dadb",
+              "primary": "#3525cd",
+              "background": "#f8f9fa",
+              "on-primary-fixed": "#0f0069",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e7e8e9",
+              "surface": "#f8f9fa",
+              "surface-container-highest": "#e1e3e4",
+              "on-surface": "#191c1d",
+              "primary-fixed": "#e2dfff",
+              "surface-container-low": "#f3f4f5",
+              "secondary-container": "#b6b4ff",
+              "inverse-surface": "#2e3132",
+              "primary-fixed-dim": "#c3c0ff",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed": "#351000",
+              "on-primary-container": "#dad7ff",
+              "inverse-primary": "#c3c0ff",
+              "surface-container": "#edeeef",
+              "outline-variant": "#c7c4d8",
+              "error-container": "#ffdad6",
+              "outline": "#777587",
+              "on-secondary-fixed": "#140f54",
+              "on-secondary-container": "#454386"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        backdrop-filter: blur(20px);
+        background: rgba(248, 249, 250, 0.85);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased overflow-hidden">
+<!-- Dashboard Background (Blurred Content Placeholder) -->
+<main class="min-h-screen p-6 opacity-40 blur-md pointer-events-none">
+<header class="flex items-center justify-between mb-8">
+<h1 class="font-headline font-bold text-2xl text-primary">Haziri</h1>
+<div class="w-10 h-10 rounded-full bg-surface-container-high"></div>
+</header>
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="h-32 bg-surface-container-lowest rounded-xl shadow-sm"></div>
+<div class="h-32 bg-surface-container-lowest rounded-xl shadow-sm"></div>
+</div>
+<div class="space-y-4">
+<div class="h-20 bg-surface-container-lowest rounded-xl"></div>
+<div class="h-20 bg-surface-container-lowest rounded-xl"></div>
+<div class="h-20 bg-surface-container-lowest rounded-xl"></div>
+<div class="h-20 bg-surface-container-lowest rounded-xl"></div>
+</div>
+</main>
+<!-- Support Center Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-on-surface/10 backdrop-blur-sm">
+<!-- Modal Card -->
+<section class="relative w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-[0px_12px_32px_rgba(25,28,29,0.04)] overflow-hidden">
+<!-- Close Button -->
+<button aria-label="Close" class="absolute top-6 right-6 p-2 rounded-full text-outline hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<!-- Modal Content -->
+<div class="p-8">
+<!-- Header -->
+<header class="mb-10 pr-8">
+<h2 class="font-headline font-bold text-[1.5rem] leading-tight text-primary mb-2">How can we help?</h2>
+<p class="font-body text-on-surface-variant text-[1rem]">Our support team is ready to assist you.</p>
+</header>
+<!-- Support Options List -->
+<div class="space-y-4">
+<!-- Common Questions -->
+<button class="w-full group flex items-center p-5 rounded-xl border border-outline-variant/20 hover:bg-surface-container-low transition-all duration-300 text-left">
+<div class="w-12 h-12 flex items-center justify-center rounded-xl bg-tertiary-fixed text-on-tertiary-fixed-variant mr-4">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex-1">
+<span class="block font-headline font-semibold text-on-surface">Common Questions</span>
+<span class="block font-label text-[0.75rem] text-outline uppercase tracking-wider mt-0.5">Faq Database</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<!-- Email Support -->
+<button class="w-full group flex items-center p-5 rounded-xl border border-outline-variant/20 hover:bg-surface-container-low transition-all duration-300 text-left">
+<div class="w-12 h-12 flex items-center justify-center rounded-xl bg-primary-fixed text-primary mr-4">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div class="flex-1">
+<span class="block font-headline font-semibold text-on-surface">Email Support</span>
+<span class="block font-label text-[0.85rem] text-on-surface-variant mt-0.5">support@haziri.com</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<!-- Call Us -->
+<button class="w-full group flex items-center p-5 rounded-xl border border-outline-variant/20 hover:bg-surface-container-low transition-all duration-300 text-left">
+<div class="w-12 h-12 flex items-center justify-center rounded-xl bg-secondary-fixed text-on-secondary-fixed-variant mr-4">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div class="flex-1">
+<span class="block font-headline font-semibold text-on-surface">Call Us</span>
+<span class="block font-label text-[0.85rem] text-on-surface-variant mt-0.5">+1-555-HAZIRI</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+</div>
+<!-- Footer Visual Element -->
+<div class="mt-10 pt-8 border-t border-outline-variant/10">
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img alt="" class="w-10 h-10 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="portrait of a professional female support specialist with a friendly smile in a bright modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjKZU33-F8XTLQZnR9BkJjW9rdbuFgTjOpoSkmoYvaVOIfPX4k2knj0zifgbgy_tnEU3Q3gvGD98eA--f7zjdspNK0psm_Zq9cj3zpnp42dDcW96VZFhFMXZV__pcYQrYJBlRKhjNW8ycYrRC-AW46fy_vQ7h22u7uoEXpmvZv-U2aJm5nTbSEFlXiRLCbmRNIzrxt8HvKgZPkLkihvcKyp6CDmiqNJOpAWcENK1Zfrr1Eo60KVBwmaGlGPnxzWKmCkziQz9LyaN8"/>
+<img alt="" class="w-10 h-10 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="portrait of a young man smiling warmly against a soft studio background with gentle lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRyXh2Vv09ULfaGHp5w6aYe_X00ZUBy7D8Epkmj7fK0F8HJCjx0y3yga6iRADq79NEGamJ6zPvaZsy1GaEiUKDgHXq0KAyN4TDfgULcQcEdd1vP2QWVA_7dEVbIXKPqopXgxKx5pA4aSxx2tZXo7l6Ko_gXlZLPat0zPPVACU7jqKJmUyHe0kmxjUzZgwzvovZPHwEIH7qOBOv6TbcEVYGILBsUxVy_Nl0aCDuI0tPbf2LJkya2IWLyEBwH200yPVYAEerPur_fs0"/>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-lowest bg-primary-container flex items-center justify-center text-on-primary-container text-[11px] font-bold">+12</div>
+</div>
+<span class="font-label text-[0.75rem] text-outline uppercase tracking-widest">Available 24/7</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom Navigation Shell (Consistent with App Identity) -->
+<nav class="fixed bottom-0 left-0 w-full z-40 flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 backdrop-blur-xl rounded-t-[24px] shadow-[0_-4px_20px_rgba(0,0,0,0.03)] opacity-50 pointer-events-none">
+<div class="flex flex-col items-center justify-center text-slate-400 px-5 py-2">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-5 py-2">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Attendance</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-indigo-50 text-indigo-600 rounded-2xl px-5 py-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">contact_support</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Support</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-5 py-2">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Profile</span>
+</div>
+</nav>
+</body></html>

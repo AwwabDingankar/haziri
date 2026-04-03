@@ -14,7 +14,8 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
       ...options.headers,
     },
   });
-  const data = await res.json();
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : {};
   if (!res.ok) throw new Error(data.error || 'Request failed');
   return data as T;
 }
@@ -42,6 +43,7 @@ export const api = {
   endSession: (id: string) => request(`/sessions/${id}/end`, { method: 'PUT' }),
   getSession: (id: string) => request(`/sessions/${id}`),
   getCourseSessions: (courseId: string) => request(`/sessions/course/${courseId}`),
+  clearCourseHistory: (courseId: string) => request(`/sessions/course/${courseId}`, { method: 'DELETE' }),
 
   // Attendance
   markAttendance: (body: object) => request('/attendance/mark', { method: 'POST', body: JSON.stringify(body) }),

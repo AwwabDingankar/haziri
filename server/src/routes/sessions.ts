@@ -103,4 +103,18 @@ router.get('/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
   }
 });
 
+// DELETE /api/sessions/course/:courseId — clear session history
+router.delete('/course/:courseId', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
+  try {
+    const { rowCount } = await pool.query(
+      'DELETE FROM sessions WHERE course_id = $1 AND teacher_id = $2 AND ended_at IS NOT NULL',
+      [req.params.courseId, req.user!.id]
+    );
+    res.status(204).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default router;

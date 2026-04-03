@@ -1,30 +1,32 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
-      fontFamily: {
-        lexend: ['Lexend', 'sans-serif'],
-      },
       colors: {
         primary: {
-          DEFAULT: '#5048e5',
-          50:  '#eeecfd',
-          100: '#d9d6fb',
-          200: '#b3adf7',
-          300: '#8d84f3',
-          400: '#675bef',
-          500: '#5048e5',
-          600: '#4039c7',
-          700: '#302ba9',
-          800: '#201c8b',
-          900: '#100e6d',
+          DEFAULT: "#5048e5",
+          50:  "#f0effd",
+          100: "#e1dffb",
+          200: "#c3bff7",
+          300: "#a59ef3",
+          400: "#877eef",
+          500: "#5048e5",
+          600: "#3d37cc",
+          700: "#2e29a3",
+          800: "#1f1c7a",
+          900: "#111051",
         },
+        "background-light": "#f6f6f8",
+        "background-dark": "#121121",
       },
-      borderRadius: {
-        DEFAULT: '0.75rem',
+      fontFamily: {
+        display: ["Lexend", "sans-serif"],
       },
     },
   },
   plugins: [],
-};
+}
