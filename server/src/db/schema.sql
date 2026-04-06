@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash TEXT NOT NULL,
   role VARCHAR(10) CHECK (role IN ('teacher','student')) NOT NULL,
   phone_number VARCHAR(20),
+  gender VARCHAR(20),
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
