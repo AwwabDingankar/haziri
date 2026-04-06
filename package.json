@@ -1,12 +1,10 @@
 {
-  "name": "haziri-root",
+  "name": "haziri",
   "version": "1.0.0",
-  "description": "Root management for Haziri project",
+  "description": "Geofenced Attendance Management System",
+  "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "dev": "npx -y concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
     "install-all": "npm install --prefix server && npm install --prefix client"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
   }
 }
