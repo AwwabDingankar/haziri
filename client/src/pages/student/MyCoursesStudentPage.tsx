@@ -142,7 +142,7 @@ export default function MyCoursesStudentPage() {
               <p className="text-[#5048e5] text-sm font-bold uppercase tracking-widest mb-2">{greeting}</p>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">{user?.name || 'Student'}</h2>
               <p className="text-slate-500 mt-2 text-base">
-                {`${courses.length} enrolled course${courses.length !== 1 ? 's' : ''}${courses.filter(c => c.has_live_session).length > 0 ? ' · 🟢 A session is live now!' : ''}`}
+                {`${courses.length} enrolled course${courses.length !== 1 ? 's' : ''}${courses.filter(c => c.has_live_session).length > 0 ? ' · session is live now!' : ''}`}
               </p>
             </div>
             <button
