@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Sidebar from '../../components/Sidebar';
+import StudentLayout from '../../layouts/StudentLayout';
 import { api } from '../../api';
 import { useGeoLocation } from '../../hooks/useGeoLocation';
 import { useDeviceFingerprint } from '../../hooks/useDeviceFingerprint';
@@ -44,109 +44,126 @@ export default function MarkAttendancePage() {
     ? Math.floor((Date.now() - new Date(session.started_at).getTime()) / 60000)
     : 0;
 
+  const stateConfig: Record<string, { icon: string; iconBg: string; iconColor: string; title: string; desc: string; btnText: string; btnAction: () => void }> = {
+    success: {
+      icon: 'check_circle', iconBg: 'bg-emerald-50', iconColor: 'text-emerald-500',
+      title: 'Marked Successfully!', desc: session?.course_title || 'Your attendance has been recorded.',
+      btnText: 'Back to My Courses', btnAction: () => navigate('/student')
+    },
+    out_of_range: {
+      icon: 'location_off', iconBg: 'bg-blue-50', iconColor: 'text-blue-500',
+      title: 'Out of Location Range', desc: 'You must be inside the classroom (within 50m) to mark attendance.',
+      btnText: 'Try Again', btnAction: () => { setMarkState('idle'); requestGeo(); }
+    },
+    already_marked: {
+      icon: 'info', iconBg: 'bg-amber-50', iconColor: 'text-amber-500',
+      title: 'Already Marked', desc: 'Your attendance has already been recorded for this session.',
+      btnText: 'Back to My Courses', btnAction: () => navigate('/student')
+    },
+    no_session: {
+      icon: 'event_busy', iconBg: 'bg-slate-50', iconColor: 'text-slate-400',
+      title: 'Session Not Active', desc: 'This session has ended or does not exist.',
+      btnText: 'Back to My Courses', btnAction: () => navigate('/student')
+    }
+  };
+
+  const currentState = stateConfig[markState];
+
   return (
-    <div className="flex">
-      <Sidebar />
-      <main className="main-content flex items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-md">
-
-          {markState === 'success' && (
-            <div className="card text-center py-10">
-              <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-5">
-                <span className="text-4xl">✅</span>
-              </div>
-              <h2 className="text-2xl font-bold text-green-700 mb-2">Marked Successfully!</h2>
-              <p className="text-gray-500 text-sm mb-6">{session?.course_title}</p>
-              <button onClick={() => navigate('/student')} className="btn-primary w-full">Back to My Courses</button>
+    <StudentLayout>
+      <div className="flex-1 w-full p-6 sm:p-8 md:p-12 lg:px-12 lg:py-6 mx-auto max-w-lg flex items-center justify-center min-h-[calc(100vh-4rem)] lg:min-h-screen animate-in fade-in duration-500">
+        
+        {/* Result State Cards */}
+        {currentState ? (
+          <div className="w-full bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 sm:p-10 text-center animate-in zoom-in-95 fade-in duration-300">
+            <div className={`w-20 h-20 rounded-full ${currentState.iconBg} flex items-center justify-center mx-auto mb-5`}>
+              <span className={`material-symbols-outlined text-4xl ${currentState.iconColor}`}>{currentState.icon}</span>
             </div>
-          )}
-
-          {markState === 'out_of_range' && (
-            <div className="card text-center py-10">
-              <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-5">
-                <span className="text-4xl">📍</span>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">{currentState.title}</h2>
+            <p className="text-slate-500 text-sm mb-8 max-w-xs mx-auto">{currentState.desc}</p>
+            <button 
+              onClick={currentState.btnAction}
+              className="w-full px-5 py-3 bg-[#5048e5] text-white rounded-xl text-sm font-bold hover:bg-[#5048e5]/90 transition-all shadow-[0_4px_12px_rgba(80,72,229,0.25)]"
+            >
+              {currentState.btnText}
+            </button>
+          </div>
+        ) : (
+          /* Main Mark Attendance Card */
+          <div className="w-full bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 sm:p-10 animate-in zoom-in-95 fade-in duration-300">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 rounded-2xl bg-[#5048e5]/10 flex items-center justify-center mx-auto mb-4">
+                <span className="material-symbols-outlined text-3xl text-[#5048e5]">location_on</span>
               </div>
-              <h2 className="text-2xl font-bold text-blue-700 mb-2">Out of Location Range</h2>
-              <p className="text-gray-500 text-sm mb-6">You must be inside the classroom (within 50m) to mark attendance.</p>
-              <button onClick={() => { setMarkState('idle'); requestGeo(); }} className="btn-primary w-full">Try Again</button>
-            </div>
-          )}
-
-          {markState === 'already_marked' && (
-            <div className="card text-center py-10">
-              <div className="w-20 h-20 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-5">
-                <span className="text-4xl">⚠️</span>
-              </div>
-              <h2 className="text-2xl font-bold text-amber-700 mb-2">Already Marked</h2>
-              <p className="text-gray-500 text-sm mb-6">Your attendance has already been recorded for this session.</p>
-              <button onClick={() => navigate('/student')} className="btn-primary w-full">Back to My Courses</button>
-            </div>
-          )}
-
-          {markState === 'no_session' && (
-            <div className="card text-center py-10">
-              <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-5">
-                <span className="text-4xl">🚫</span>
-              </div>
-              <h2 className="text-2xl font-bold text-gray-700 mb-2">Session Not Active</h2>
-              <p className="text-gray-500 text-sm mb-6">This session has ended or does not exist.</p>
-              <button onClick={() => navigate('/student')} className="btn-primary w-full">Back to My Courses</button>
-            </div>
-          )}
-
-          {(markState === 'idle' || markState === 'loading' || markState === 'error') && (
-            <div className="card">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-3xl">📍</span>
-                </div>
-                <h2 className="text-xl font-bold text-gray-900 mb-1">Mark Attendance</h2>
-                {session && (
-                  <>
-                    <p className="text-sm font-medium text-gray-700">{session.course_title}</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      <span className="badge-purple mr-2">{session.course_code}</span>
-                      with {session.teacher_name} · {elapsed}m ago
-                    </p>
-                  </>
-                )}
-              </div>
-
-              {/* GPS status */}
-              <div className="bg-gray-50 rounded-xl p-4 mb-6">
-                {geoLoading && <p className="text-sm text-gray-500">📡 Getting your location...</p>}
-                {geoError && (
-                  <div>
-                    <p className="text-sm text-red-600 mb-2">❌ Location error: {geoError}</p>
-                    <button onClick={requestGeo} className="text-xs text-primary font-medium">Retry</button>
+              <h2 className="text-xl font-bold text-slate-900 mb-1">Mark Attendance</h2>
+              {session && (
+                <>
+                  <p className="text-sm font-semibold text-slate-700">{session.course_title}</p>
+                  <div className="flex items-center justify-center gap-3 mt-2 text-xs text-slate-400">
+                    <span className="inline-flex items-center gap-1 bg-[#5048e5]/10 text-[#5048e5] px-2.5 py-1 rounded-full font-bold">{session.course_code}</span>
+                    <span>with {session.teacher_name}</span>
+                    <span>· {elapsed}m ago</span>
                   </div>
-                )}
-                {lat && lng && !geoLoading && (
-                  <div>
-                    <p className="text-sm text-green-700 font-medium">✅ Location ready</p>
-                    <p className="text-xs text-gray-400 mt-1">Lat: {lat.toFixed(5)}, Lng: {lng.toFixed(5)}</p>
-                  </div>
-                )}
-              </div>
-
-              {errMsg && (
-                <p className="text-red-600 text-sm mb-4 bg-red-50 px-3 py-2 rounded-lg">{errMsg}</p>
+                </>
               )}
-
-              <button
-                onClick={handleMark}
-                disabled={markState === 'loading' || geoLoading}
-                className="btn-primary w-full text-base py-3"
-              >
-                {markState === 'loading' ? '⏳ Marking...' : !lat ? '📡 Enable Location First' : '✅ Mark as Present'}
-              </button>
-              <p className="text-center text-xs text-gray-400 mt-3">
-                You must be within 50m of the classroom.
-              </p>
             </div>
-          )}
-        </div>
-      </main>
-    </div>
+
+            {/* GPS Status Panel */}
+            <div className="bg-slate-50 rounded-2xl p-5 mb-6 border border-slate-100">
+              {geoLoading && (
+                <div className="flex items-center gap-3">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#5048e5]"></div>
+                  <p className="text-sm text-slate-500 font-medium">Getting your location...</p>
+                </div>
+              )}
+              {geoError && (
+                <div>
+                  <div className="flex items-center gap-2 text-red-600 mb-2">
+                    <span className="material-symbols-outlined text-lg">error</span>
+                    <p className="text-sm font-medium">Location error: {geoError}</p>
+                  </div>
+                  <button onClick={requestGeo} className="text-xs text-[#5048e5] font-bold hover:underline">Retry</button>
+                </div>
+              )}
+              {lat && lng && !geoLoading && (
+                <div>
+                  <div className="flex items-center gap-2 text-emerald-600 mb-1">
+                    <span className="material-symbols-outlined text-lg">check_circle</span>
+                    <p className="text-sm font-bold">Location ready</p>
+                  </div>
+                  <p className="text-xs text-slate-400 ml-7">Lat: {lat.toFixed(5)}, Lng: {lng.toFixed(5)}</p>
+                </div>
+              )}
+            </div>
+
+            {errMsg && (
+              <div className="flex items-center gap-2 text-red-600 text-sm mb-4 bg-red-50 px-4 py-3 rounded-xl border border-red-100">
+                <span className="material-symbols-outlined text-lg">warning</span>
+                {errMsg}
+              </div>
+            )}
+
+            <button
+              onClick={handleMark}
+              disabled={markState === 'loading' || geoLoading}
+              className="w-full px-5 py-4 bg-[#5048e5] text-white rounded-xl text-base font-bold hover:bg-[#5048e5]/90 transition-all shadow-[0_4px_12px_rgba(80,72,229,0.25)] hover:shadow-[0_6px_16px_rgba(80,72,229,0.35)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {markState === 'loading' ? (
+                <><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> Marking...</>
+              ) : !lat ? (
+                <><span className="material-symbols-outlined">gps_fixed</span> Enable Location First</>
+              ) : (
+                <><span className="material-symbols-outlined">verified</span> Mark as Present</>
+              )}
+            </button>
+            <p className="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-1">
+              <span className="material-symbols-outlined text-[14px]">info</span>
+              You must be within 50m of the classroom.
+            </p>
+          </div>
+        )}
+      </div>
+    </StudentLayout>
   );
 }

@@ -9,6 +9,9 @@ import RegisterPage from './pages/RegisterPage';
 import TeacherCoursesPage from './pages/teacher/TeacherCoursesPage';
 import ActiveSessionPage from './pages/teacher/ActiveSessionPage';
 import SessionHistoryPage from './pages/teacher/SessionHistoryPage';
+import TeacherStudentsPage from './pages/teacher/TeacherStudentsPage';
+import TeacherStudentDetailsPage from './pages/teacher/TeacherStudentDetailsPage';
+import TeacherReportsPage from './pages/teacher/TeacherReportsPage';
 
 // Student pages
 import AvailableCoursesPage from './pages/student/AvailableCoursesPage';
@@ -45,6 +48,9 @@ export default function App() {
           <Route path="/teacher" element={<ProtectedRoute role="teacher"><TeacherCoursesPage /></ProtectedRoute>} />
           <Route path="/teacher/session/:id" element={<ProtectedRoute role="teacher"><ActiveSessionPage /></ProtectedRoute>} />
           <Route path="/teacher/courses/:id/history" element={<ProtectedRoute role="teacher"><SessionHistoryPage /></ProtectedRoute>} />
+          <Route path="/teacher/students" element={<ProtectedRoute role="teacher"><TeacherStudentsPage /></ProtectedRoute>} />
+          <Route path="/teacher/students/:id" element={<ProtectedRoute role="teacher"><TeacherStudentDetailsPage /></ProtectedRoute>} />
+          <Route path="/teacher/reports" element={<ProtectedRoute role="teacher"><TeacherReportsPage /></ProtectedRoute>} />
 
           {/* Student */}
           <Route path="/student" element={<ProtectedRoute role="student"><MyCoursesStudentPage /></ProtectedRoute>} />

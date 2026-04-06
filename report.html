@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Detailed Course Attendance Analytics - Haziri</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col">
+<div class="p-6 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-2xl">school</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight">Haziri</h1>
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Student Portal</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">book_5</span>
+<span class="font-medium">Courses</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">calendar_today</span>
+<span class="font-medium">Attendance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart_4_bars</span>
+<span class="font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2">
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Student profile headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH2xhgfhIVLZR0mLEgIKlMH08FHaZGKOldYn1WiUA6KHEH6HRVlJQ8RdDITn6TpYx_xcwj_puuwYl-EzOORvUA3EesgRhnqdMZrVhPjFWFJhjVxkYY7Vy3gz6BIan_wmnkkqcBQvnf0EvRfa11Nwz1zDqUMu2hnWKgJLi-HEqnJv_afWYAJLvvrrpXb-Kouj6YGideeUiYtplOlNTA-MJ3uAvq_Yrre5JgxQ4Uucuc9WSgf1BqD8i2xoJKVnGWaORsE5pZ9gmlENQ"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">Alex Johnson</p>
+<p class="text-xs text-slate-500 truncate">ID: 2024-8891</p>
+</div>
+<span class="material-symbols-outlined text-slate-400">logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col overflow-hidden bg-background-light dark:bg-background-dark">
+<!-- Header -->
+<header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 shrink-0">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative max-w-md w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Search sessions or courses..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="size-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<button class="px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-all shadow-sm">
+                        Export Report
+                    </button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8">
+<!-- Page Title -->
+<div class="flex flex-col gap-1">
+<h2 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">Course Analytics</h2>
+<p class="text-slate-500 text-lg">Detailed student course attendance and session reports</p>
+</div>
+<!-- Course Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Course Card 1 -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">CS101</h3>
+<p class="text-sm text-slate-500 font-medium">Computer Science</p>
+</div>
+<div class="relative size-16 flex items-center justify-center">
+<svg class="size-full -rotate-90" viewbox="0 0 36 36">
+<circle class="stroke-slate-100 dark:stroke-slate-800" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="87.5, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<span class="absolute text-xs font-bold text-primary">87%</span>
+</div>
+</div>
+<div class="flex justify-between py-4 border-t border-b border-slate-50 dark:border-slate-800/50">
+<div class="text-center flex-1">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">24</p>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Total Sessions</p>
+</div>
+<div class="w-px bg-slate-100 dark:bg-slate-800"></div>
+<div class="text-center flex-1">
+<p class="text-2xl font-bold text-primary">21</p>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Attended</p>
+</div>
+</div>
+<button class="w-full py-2.5 text-sm font-semibold text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors">View Timeline</button>
+</div>
+<!-- Course Card 2 -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">MATH202</h3>
+<p class="text-sm text-slate-500 font-medium">Calculus II</p>
+</div>
+<div class="relative size-16 flex items-center justify-center">
+<svg class="size-full -rotate-90" viewbox="0 0 36 36">
+<circle class="stroke-slate-100 dark:stroke-slate-800" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="92, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<span class="absolute text-xs font-bold text-primary">92%</span>
+</div>
+</div>
+<div class="flex justify-between py-4 border-t border-b border-slate-50 dark:border-slate-800/50">
+<div class="text-center flex-1">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">25</p>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Total Sessions</p>
+</div>
+<div class="w-px bg-slate-100 dark:bg-slate-800"></div>
+<div class="text-center flex-1">
+<p class="text-2xl font-bold text-primary">23</p>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Attended</p>
+</div>
+</div>
+<button class="w-full py-2.5 text-sm font-semibold text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors">View Timeline</button>
+</div>
+<!-- Course Card 3 -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">ENG105</h3>
+<p class="text-sm text-slate-500 font-medium">Academic Writing</p>
+</div>
+<div class="relative size-16 flex items-center justify-center">
+<svg class="size-full -rotate-90" viewbox="0 0 36 36">
+<circle class="stroke-slate-100 dark:stroke-slate-800" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-red-400" cx="18" cy="18" fill="none" r="16" stroke-dasharray="75, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<span class="absolute text-xs font-bold text-red-500">75%</span>
+</div>
+</div>
+<div class="flex justify-between py-4 border-t border-b border-slate-50 dark:border-slate-800/50">
+<div class="text-center flex-1">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">20</p>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Total Sessions</p>
+</div>
+<div class="w-px bg-slate-100 dark:bg-slate-800"></div>
+<div class="text-center flex-1">
+<p class="text-2xl font-bold text-red-500">15</p>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Attended</p>
+</div>
+</div>
+<button class="w-full py-2.5 text-sm font-semibold text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors">View Timeline</button>
+</div>
+</div>
+<!-- Recent Sessions Section -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-8 py-6 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Recent Sessions - CS101</h3>
+<div class="flex items-center gap-2 text-primary font-semibold text-sm cursor-pointer hover:underline">
+<span>See all sessions</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50/50 dark:bg-slate-800/50">
+<th class="px-8 py-4 text-xs font-bold uppercase tracking-widest text-slate-400">Date</th>
+<th class="px-8 py-4 text-xs font-bold uppercase tracking-widest text-slate-400">Topic</th>
+<th class="px-8 py-4 text-xs font-bold uppercase tracking-widest text-slate-400">Time</th>
+<th class="px-8 py-4 text-xs font-bold uppercase tracking-widest text-slate-400">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-8 py-5 text-sm font-medium">May 12, 2024</td>
+<td class="px-8 py-5 text-sm">Data Structures: Linked Lists</td>
+<td class="px-8 py-5 text-sm text-slate-500">10:00 AM - 11:30 AM</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-full text-xs font-bold">Present</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-8 py-5 text-sm font-medium">May 10, 2024</td>
+<td class="px-8 py-5 text-sm">Introduction to Recursion</td>
+<td class="px-8 py-5 text-sm text-slate-500">10:00 AM - 11:30 AM</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-full text-xs font-bold">Present</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-8 py-5 text-sm font-medium">May 08, 2024</td>
+<td class="px-8 py-5 text-sm">Midterm Review Session</td>
+<td class="px-8 py-5 text-sm text-slate-500">10:00 AM - 11:30 AM</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400 rounded-full text-xs font-bold">Absent</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-8 py-5 text-sm font-medium">May 05, 2024</td>
+<td class="px-8 py-5 text-sm">Memory Management &amp; Pointers</td>
+<td class="px-8 py-5 text-sm text-slate-500">10:00 AM - 11:30 AM</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-full text-xs font-bold">Present</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

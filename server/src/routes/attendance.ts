@@ -117,10 +117,12 @@ router.get('/my', requireRole('student'), async (req: AuthRequest, res: Response
   try {
     const { rows } = await pool.query(
       `SELECT a.*, s.started_at AS session_started, s.ended_at AS session_ended,
-         c.title AS course_title, c.code AS course_code
+         c.title AS course_title, c.code AS course_code,
+         u.name AS teacher_name
        FROM attendance a
        JOIN sessions s ON s.id = a.session_id
        JOIN courses c ON c.id = s.course_id
+       JOIN users u ON u.id = c.teacher_id
        WHERE a.student_id = $1
        ORDER BY a.marked_at DESC`,
       [req.user!.id]

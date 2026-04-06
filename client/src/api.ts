@@ -31,6 +31,8 @@ export const api = {
   createCourse: (body: object) => request('/courses', { method: 'POST', body: JSON.stringify(body) }),
   updateCourse: (id: string, body: object) => request(`/courses/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
   deleteCourse: (id: string) => request(`/courses/${id}`, { method: 'DELETE' }),
+  getTeacherStudents: () => request('/courses/teacher/students'),
+  getTeacherStudentDetails: (studentId: string) => request(`/courses/teacher/students/${studentId}/details`),
   getCourseStudents: (id: string) => request(`/courses/${id}/students`),
 
   // Student — courses

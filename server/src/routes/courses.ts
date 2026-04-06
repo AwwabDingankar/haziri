@@ -25,6 +25,88 @@ router.get('/', requireRole('teacher'), async (req: AuthRequest, res: Response) 
   res.json(rows);
 });
 
+// GET /api/courses/teacher/students — list all students for the logged-in teacher
+router.get('/teacher/students', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT
+         u.id, u.name, u.email, u.phone_number, u.gender,
+         COUNT(e.course_id)::int as enrolled_courses
+       FROM users u
+       JOIN enrollments e ON e.student_id = u.id
+       JOIN courses c ON c.id = e.course_id
+       WHERE c.teacher_id = $1 AND u.role = 'student'
+       GROUP BY u.id, u.name, u.email, u.phone_number, u.gender
+       ORDER BY u.name ASC`,
+      [req.user!.id]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /api/courses/teacher/students/:studentId/details — get detailed attendance stats for a student
+router.get('/teacher/students/:studentId/details', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
+  try {
+    const { rows: studentRows } = await pool.query(
+      `SELECT id, name, email, phone_number, gender FROM users WHERE id = $1 AND role = 'student'`,
+      [req.params.studentId]
+    );
+
+    if (studentRows.length === 0) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    const { rows: courseStats } = await pool.query(
+      `SELECT 
+         c.id, c.title, c.code,
+         COUNT(DISTINCT s.id)::int AS total_sessions,
+         COUNT(DISTINCT a.session_id)::int AS present_count
+       FROM courses c
+       JOIN enrollments e ON e.course_id = c.id AND e.student_id = $2
+       LEFT JOIN sessions s ON s.course_id = c.id AND s.ended_at IS NOT NULL
+       LEFT JOIN attendance a ON a.session_id = s.id AND a.student_id = $2 AND a.status = 'present'
+       WHERE c.teacher_id = $1
+       GROUP BY c.id, c.title, c.code
+       ORDER BY c.title ASC`,
+      [req.user!.id, req.params.studentId]
+    );
+
+    let totalClasses = 0;
+    let totalPresent = 0;
+
+    const courses = courseStats.map(c => {
+      totalClasses += c.total_sessions;
+      totalPresent += c.present_count;
+      const percent = c.total_sessions > 0 ? Math.round((c.present_count / c.total_sessions) * 100) : 0;
+      return {
+        ...c,
+        percent,
+      };
+    });
+
+    const totalAbsent = totalClasses - totalPresent;
+    const overallPercent = totalClasses > 0 ? Math.round((totalPresent / totalClasses) * 100) : 0;
+
+    res.json({
+      student: studentRows[0],
+      overview: {
+        totalClasses,
+        totalPresent,
+        totalAbsent,
+        overallPercent
+      },
+      courses
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // POST /api/courses — create course (teacher)
 router.post('/', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
   const { title, code, description, cover_image_url } = req.body;
@@ -87,6 +169,7 @@ router.get('/:id/students', requireRole('teacher'), async (req: AuthRequest, res
   );
   res.json(rows);
 });
+
 
 // ─── Student: Available + Enrolled ─────────────────────────────────
 // GET /api/courses/available — all active courses (student)

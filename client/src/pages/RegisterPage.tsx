@@ -6,7 +6,7 @@ export default function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
   const [role, setRole] = useState<'teacher' | 'student'>('student');
-  const [form, setForm] = useState({ name: '', email: '', password: '', phone_number: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', phone_number: '', gender: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -122,6 +122,25 @@ export default function RegisterPage() {
                     <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
                       <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">history_edu</span>
                       <span className="text-slate-700 font-bold text-sm">Student</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 ml-1">Gender</label>
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="cursor-pointer">
+                    <input className="peer hidden" name="gender" type="radio" value="male" checked={form.gender === 'male'} onChange={() => setForm({ ...form, gender: 'male' })} required />
+                    <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
+                      <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">man</span>
+                      <span className="text-slate-700 font-bold text-sm">Male</span>
+                    </div>
+                  </label>
+                  <label className="cursor-pointer">
+                    <input className="peer hidden" name="gender" type="radio" value="female" checked={form.gender === 'female'} onChange={() => setForm({ ...form, gender: 'female' })} required />
+                    <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
+                      <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">woman</span>
+                      <span className="text-slate-700 font-bold text-sm">Female</span>
                     </div>
                   </label>
                 </div>

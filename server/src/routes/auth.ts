@@ -8,7 +8,7 @@ const router = Router();
 
 // POST /api/auth/register
 router.post('/register', async (req: Request, res: Response) => {
-  const { name, email, password, role, phone_number } = req.body;
+  const { name, email, password, role, phone_number, gender } = req.body;
 
   if (!name || !email || !password || !role) {
     return res.status(400).json({ error: 'name, email, password, and role are required' });
@@ -20,10 +20,10 @@ router.post('/register', async (req: Request, res: Response) => {
     try {
       const password_hash = await bcrypt.hash(password, 12);
       const { rows } = await pool.query(
-        `INSERT INTO users (name, email, password_hash, role, phone_number)
-         VALUES ($1, $2, $3, $4, $5)
-         RETURNING id, name, email, role, phone_number, created_at`,
-        [name, email, password_hash, role, phone_number || null]
+        `INSERT INTO users (name, email, password_hash, role, phone_number, gender)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id, name, email, role, phone_number, gender, created_at`,
+        [name, email, password_hash, role, phone_number || null, gender || null]
       );
       const user = rows[0];
     const token = jwt.sign(
@@ -69,7 +69,7 @@ router.post('/login', async (req: Request, res: Response) => {
 router.get('/me', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const { rows } = await pool.query(
-      'SELECT id, name, email, role, phone_number, created_at FROM users WHERE id = $1',
+      'SELECT id, name, email, role, phone_number, gender, created_at FROM users WHERE id = $1',
       [req.user!.id]
     );
     if (!rows[0]) return res.status(404).json({ error: 'User not found' });
