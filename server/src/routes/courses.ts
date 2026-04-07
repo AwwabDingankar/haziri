@@ -107,56 +107,6 @@ router.get('/teacher/students/:studentId/details', requireRole('teacher'), async
   }
 });
 
-// POST /api/courses — create course (teacher)
-router.post('/', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
-  const { title, code, description, cover_image_url } = req.body;
-  if (!title || !code) return res.status(400).json({ error: 'title and code are required' });
-  try {
-    const { rows } = await pool.query(
-      `INSERT INTO courses (teacher_id, code, title, description, cover_image_url)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [req.user!.id, code, title, description ?? null, cover_image_url ?? null]
-    );
-    res.status(201).json(rows[0]);
-  } catch (err: any) {
-    if (err.code === '23505') return res.status(409).json({ error: 'Course code already exists' });
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// PUT /api/courses/:id — update course (teacher, own only)
-router.put('/:id', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
-  const { title, code, description, cover_image_url, status } = req.body;
-  try {
-    const { rows } = await pool.query(
-      `UPDATE courses
-       SET title = COALESCE($1, title),
-           code = COALESCE($2, code),
-           description = COALESCE($3, description),
-           cover_image_url = COALESCE($4, cover_image_url),
-           status = COALESCE($5, status)
-       WHERE id = $6 AND teacher_id = $7
-       RETURNING *`,
-      [title, code, description, cover_image_url, status, req.params.id, req.user!.id]
-    );
-    if (!rows[0]) return res.status(404).json({ error: 'Course not found' });
-    res.json(rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// DELETE /api/courses/:id — delete course (teacher, own only)
-router.delete('/:id', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
-  const { rowCount } = await pool.query(
-    'DELETE FROM courses WHERE id = $1 AND teacher_id = $2',
-    [req.params.id, req.user!.id]
-  );
-  if (!rowCount) return res.status(404).json({ error: 'Course not found' });
-  res.status(204).send();
-});
 
 // GET /api/courses/:id/students — list enrolled students (teacher)
 router.get('/:id/students', requireRole('teacher'), async (req: AuthRequest, res: Response) => {

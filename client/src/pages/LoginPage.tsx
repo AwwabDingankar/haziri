@@ -146,7 +146,7 @@ export default function LoginPage() {
               
               <div className="flex items-center justify-center gap-2 pt-6">
                 <p className="text-slate-500 font-medium text-sm">Don't have an account?</p>
-                <Link className="text-[#5048e5] font-bold text-sm hover:underline" to="/register">Create an account</Link>
+                <Link className="text-[#5048e5] font-bold text-sm hover:underline" to="/register">Register as Student</Link>
               </div>
             </form>
             

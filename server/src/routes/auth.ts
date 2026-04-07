@@ -13,8 +13,11 @@ router.post('/register', async (req: Request, res: Response) => {
   if (!name || !email || !password || !role) {
     return res.status(400).json({ error: 'name, email, password, and role are required' });
   }
-  if (!['teacher', 'student'].includes(role)) {
-    return res.status(400).json({ error: 'role must be "teacher" or "student"' });
+  if (role === 'teacher') {
+    return res.status(403).json({ error: 'Teacher accounts are pre-configured. Please contact administration.' });
+  }
+  if (role !== 'student') {
+    return res.status(400).json({ error: 'role must be "student"' });
   }
 
     try {

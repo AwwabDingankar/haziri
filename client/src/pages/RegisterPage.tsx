@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 export default function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [role, setRole] = useState<'teacher' | 'student'>('student');
+
   const [form, setForm] = useState({ name: '', email: '', password: '', phone_number: '', gender: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setError(''); setLoading(true);
     try {
-      const body = { ...form, role };
+      const body = { ...form, role: 'student' };
       const user = await register(body);
       navigate(user.role === 'teacher' ? '/teacher' : '/student');
     } catch (err: any) {
@@ -95,8 +95,8 @@ export default function RegisterPage() {
           <div className="max-w-md w-full mx-auto mt-8 lg:mt-0">
 
             <div className="mb-8 text-left">
-              <h2 className="text-3xl font-black text-slate-900 mb-2">Create Account</h2>
-              <p className="text-slate-500 font-medium">Step into a world of seamless organization.</p>
+              <h2 className="text-3xl font-black text-slate-900 mb-2">Student Registration</h2>
+              <p className="text-slate-500 font-medium">Join your classes and track your attendance.</p>
             </div>
             
             {error && (
@@ -107,25 +107,7 @@ export default function RegisterPage() {
             
             <form onSubmit={handleSubmit} className="space-y-4">
               
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700 ml-1">I am registering as a:</label>
-                <div className="grid grid-cols-2 gap-4">
-                  <label className="cursor-pointer">
-                    <input className="peer hidden" name="role" type="radio" value="teacher" checked={role === 'teacher'} onChange={() => setRole('teacher')} />
-                    <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
-                      <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">school</span>
-                      <span className="text-slate-700 font-bold text-sm">Teacher</span>
-                    </div>
-                  </label>
-                  <label className="cursor-pointer">
-                    <input className="peer hidden" name="role" type="radio" value="student" checked={role === 'student'} onChange={() => setRole('student')} />
-                    <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
-                      <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">history_edu</span>
-                      <span className="text-slate-700 font-bold text-sm">Student</span>
-                    </div>
-                  </label>
-                </div>
-              </div>
+
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700 ml-1">Gender</label>
                 <div className="grid grid-cols-2 gap-4">

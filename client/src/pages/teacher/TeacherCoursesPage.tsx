@@ -15,45 +15,12 @@ interface Course {
   live_session_id?: string;
 }
 
-const COVER_IMAGES = [
-  // Study & Laptops
-  'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
-  // Books & Reading
-  'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80',
-  // Writing & Notes
-  'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80',
-  // Science & Math
-  'https://images.unsplash.com/photo-1581726707445-75cbe4efc586?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80',
-  // Classroom & Campus
-  'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80',
-  // Creative & Art
-  'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=800&q=80',
-];
 
 export default function TeacherCoursesPage() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Modals
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState<string | null>(null);
-
-  // Forms
-  const [newTitle, setNewTitle] = useState('');
-  const [newCode, setNewCode] = useState('');
-  const [isCreating, setIsCreating] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [sessionStartingFor, setSessionStartingFor] = useState<string | null>(null);
 
   const fetchCourses = useCallback(async () => {
@@ -71,44 +38,6 @@ export default function TeacherCoursesPage() {
     fetchCourses();
   }, [fetchCourses]);
 
-  const handleCreateCourse = async () => {
-    if (!newTitle || !newCode) return;
-    setIsCreating(true);
-    try {
-      // Pick deterministically from palette using a stronger hash of the course code
-      const hash = newCode.split('').reduce((acc, c, i) => (acc + c.charCodeAt(0) * (i + 7)) % COVER_IMAGES.length, 0);
-      const randomCover = COVER_IMAGES[hash];
-      await api.createCourse({
-        title: newTitle,
-        code: newCode,
-        cover_image_url: randomCover
-      });
-      setShowCreateModal(false);
-      setNewTitle('');
-      setNewCode('');
-      fetchCourses();
-    } catch (err) {
-      console.error(err);
-      alert('Failed to create course. ' + (err as any).message);
-    } finally {
-      setIsCreating(false);
-    }
-  };
-
-  const handleDeleteCourse = async () => {
-    if (!showDeleteModal) return;
-    setIsDeleting(true);
-    try {
-      await api.deleteCourse(showDeleteModal);
-      setShowDeleteModal(null);
-      fetchCourses();
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete course');
-    } finally {
-      setIsDeleting(false);
-    }
-  };
 
   const handleStartSession = async (courseId: string) => {
     setSessionStartingFor(courseId);
@@ -170,21 +99,10 @@ export default function TeacherCoursesPage() {
                 </div>
               </div>
               <div className="space-y-3 sm:space-y-4 max-w-md mx-auto px-2">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Start your journey</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900">No courses assigned</h2>
                 <p className="text-slate-500 text-sm sm:text-lg leading-relaxed">
-                  Your dashboard is currently empty. Begin your teaching experience by adding your first curriculum.
+                  You haven't been assigned any courses yet. Please contact your administrator.
                 </p>
-              </div>
-              <div className="mt-8 md:mt-12">
-                <button
-                  onClick={() => setShowCreateModal(true)}
-                  className="relative w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-[#5048e5] to-[#6860FF] text-white rounded-full font-bold tracking-wide shadow-lg shadow-[#5048e5]/30 hover:shadow-xl hover:shadow-[#5048e5]/40 hover:-translate-y-1 active:scale-[0.97] transition-all duration-300 group"
-                >
-                  <div className="flex items-center justify-center bg-white/20 rounded-full p-1 group-hover:bg-white/30 transition-colors">
-                    <span className="material-symbols-outlined text-[18px] sm:text-[20px] group-hover:rotate-90 transition-transform duration-300">add</span>
-                  </div>
-                  <span className="text-[15px] sm:text-lg">Create Your First Course</span>
-                </button>
               </div>
             </div>
           </section>
@@ -196,13 +114,6 @@ export default function TeacherCoursesPage() {
                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">My Courses</h1>
                 <p className="text-slate-500 mt-1">Manage your curriculums and sessions</p>
               </div>
-              <button
-                onClick={() => setShowCreateModal(true)}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#5048e5] text-white rounded-xl font-semibold shadow-lg shadow-[#5048e5]/20 hover:bg-[#5048e5]/90 hover:-translate-y-0.5 active:scale-95 transition-all"
-              >
-                <span className="material-symbols-outlined text-[20px]">add</span>
-                New Course
-              </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -219,9 +130,6 @@ export default function TeacherCoursesPage() {
                       <span className="px-2.5 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider rounded-lg border border-white/20">
                         {course.code}
                       </span>
-                      <button onClick={() => setShowDeleteModal(course.id)} className="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500 backdrop-blur-md text-white flex items-center justify-center transition-colors">
-                        <span className="material-symbols-outlined text-[18px]">delete</span>
-                      </button>
                     </div>
                   </div>
                   
@@ -271,93 +179,7 @@ export default function TeacherCoursesPage() {
         )}
       </div>
 
-      {/* Create Course Modal */}
-      {showCreateModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-all duration-300">
-          <div className="w-full max-w-[500px] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div className="px-8 pt-8 pb-6 flex justify-between items-start border-b border-slate-50">
-              <div>
-                <h3 className="text-2xl font-bold text-slate-900">Create Course</h3>
-                <p className="text-sm text-slate-500 mt-1">Set up your new teaching environment</p>
-              </div>
-              <button onClick={() => setShowCreateModal(false)} className="p-2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer rounded-lg hover:bg-slate-50">
-                <span className="material-symbols-outlined">close</span>
-              </button>
-            </div>
 
-            <div className="px-8 py-6 space-y-5">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700 ml-1">Course Name</label>
-                <input
-                  type="text"
-                  value={newTitle}
-                  onChange={e => setNewTitle(e.target.value)}
-                  placeholder="e.g. Advanced Mathematics 101"
-                  className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#5048e5]/20 focus:border-[#5048e5] outline-none transition-all placeholder:text-slate-400 font-medium"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700 ml-1">Course Code</label>
-                <input
-                  type="text"
-                  value={newCode}
-                  onChange={e => setNewCode(e.target.value)}
-                  placeholder="e.g. CS101"
-                  className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#5048e5]/20 focus:border-[#5048e5] outline-none transition-all placeholder:text-slate-400 uppercase font-medium"
-                />
-              </div>
-            </div>
-
-            <div className="px-8 pb-8 pt-2">
-              <button
-                onClick={handleCreateCourse}
-                disabled={isCreating || !newTitle || !newCode}
-                className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#5048e5] hover:bg-[#5048e5]/90 text-white rounded-xl font-bold shadow-lg shadow-[#5048e5]/20 transition-all active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isCreating ? (
-                   <span className="material-symbols-outlined text-xl animate-spin">refresh</span>
-                ) : (
-                   <span className="material-symbols-outlined text-xl">add</span>
-                )}
-                {isCreating ? 'Creating...' : 'Create Course'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 animate-in zoom-in-95 duration-200">
-            <div className="flex items-center gap-5 mb-2">
-              <div className="w-14 h-14 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 shrink-0">
-                <span className="material-symbols-outlined text-3xl">delete</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-slate-900">Delete Course</h3>
-                <p className="text-sm text-slate-500 mt-1">This will permanently delete the course and all sessions.</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 justify-end mt-8">
-              <button 
-                onClick={() => setShowDeleteModal(null)}
-                className="px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={handleDeleteCourse}
-                disabled={isDeleting}
-                className="px-6 py-2.5 text-sm font-bold bg-rose-500 hover:bg-rose-600 text-white rounded-xl transition-colors shadow-lg shadow-rose-500/30 cursor-pointer disabled:opacity-70 flex gap-2 items-center"
-              >
-                {isDeleting && <span className="material-symbols-outlined text-[18px] animate-spin">refresh</span>}
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </TeacherLayout>
   );
 }
