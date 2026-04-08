@@ -96,7 +96,7 @@ export default function TeacherStudentDetailsPage() {
               HZ-{data.student.id.substring(0, 6)}
             </p>
 
-            <div className="w-full mt-8 space-y-6 pt-6 border-t border-slate-100">
+            <div className="w-full mt-5 space-y-6 pt-6 border-t border-slate-100">
               <div className="flex items-center gap-4 text-left">
                 <div className="size-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
                   <span className="material-symbols-outlined">mail</span>
@@ -107,15 +107,6 @@ export default function TeacherStudentDetailsPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 text-left">
-                <div className="size-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
-                  <span className="material-symbols-outlined">call</span>
-                </div>
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Phone Number</p>
-                  <p className="text-sm font-medium text-slate-700">{data.student.phone_number || 'Not provided'}</p>
-                </div>
-              </div>
 
               <div className="flex items-center gap-4 text-left">
                 <div className="size-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">

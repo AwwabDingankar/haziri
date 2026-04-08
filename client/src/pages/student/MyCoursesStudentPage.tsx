@@ -131,6 +131,10 @@ export default function MyCoursesStudentPage() {
   }
 
   /* ── ENROLLED STATE — Course Grid ── */
+  // Hide the Demo course if any real course has an active session
+  const hasRealActiveSession = courses.some(c => c.code !== 'DEMO101' && c.has_live_session);
+  const displayedCourses = hasRealActiveSession ? courses.filter(c => c.code !== 'DEMO101') : courses;
+
   return (
     <StudentLayout>
       <div className="flex-1 w-full p-5 sm:p-8 md:p-10 lg:px-12 lg:py-8 mx-auto max-w-7xl animate-in fade-in duration-500">
@@ -142,7 +146,7 @@ export default function MyCoursesStudentPage() {
               <p className="text-[#5048e5] text-sm font-bold uppercase tracking-widest mb-2">{greeting}</p>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">{user?.name || 'Student'}</h2>
               <p className="text-slate-500 mt-2 text-base">
-                {`${courses.length} enrolled course${courses.length !== 1 ? 's' : ''}${courses.filter(c => c.has_live_session).length > 0 ? ' · session is live now!' : ''}`}
+                {`${displayedCourses.length} enrolled course${displayedCourses.length !== 1 ? 's' : ''}${displayedCourses.filter(c => c.has_live_session).length > 0 ? ' · session is live now!' : ''}`}
               </p>
             </div>
             <button
@@ -156,7 +160,7 @@ export default function MyCoursesStudentPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {courses.map((course, idx) => (
+          {displayedCourses.map((course, idx) => (
             <div
               key={course.id}
               className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/40 border border-slate-100 flex flex-col group hover:shadow-2xl hover:shadow-slate-200/60 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
@@ -182,6 +186,12 @@ export default function MyCoursesStudentPage() {
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                     </span>
                     Live Session
+                  </div>
+                )}
+                {course.code === 'DEMO101' && (
+                  <div className="absolute top-3 left-4 flex items-center gap-1 bg-amber-400 text-amber-900 text-[10px] font-black px-2.5 py-1 rounded-full shadow-lg uppercase tracking-wider">
+                    <span className="material-symbols-outlined text-[12px]">science</span>
+                    Demo
                   </div>
                 )}
               </div>

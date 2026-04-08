@@ -48,14 +48,14 @@ export default function AvailableCoursesPage() {
   return (
     <StudentLayout>
       <div className="flex-1 w-full p-5 sm:p-8 md:p-10 lg:px-12 lg:py-8 mx-auto max-w-7xl animate-in fade-in duration-500">
-        
+
         {/* Header */}
         <div className="mb-8 mt-2 lg:mt-0 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Available Courses</h2>
             <p className="text-slate-500 mt-2 text-base">Discover and enroll in courses offered by your teachers.</p>
           </div>
-          <button 
+          <button
             onClick={() => navigate('/student')}
             className="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-200 transition-all shrink-0 self-start md:self-auto flex items-center gap-2"
           >
@@ -93,8 +93,8 @@ export default function AvailableCoursesPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filtered.map((course, idx) => (
-              <div 
-                key={course.id} 
+              <div
+                key={course.id}
                 className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/40 border border-slate-100 flex flex-col group hover:shadow-2xl hover:shadow-slate-200/60 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
                 style={{ animationDelay: `${idx * 60}ms`, animationFillMode: 'both' }}
               >
@@ -106,7 +106,7 @@ export default function AvailableCoursesPage() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
-                  
+
                   <div className="absolute bottom-3 left-4">
                     <span className="px-2.5 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider rounded-lg border border-white/20">
                       {course.code}
@@ -134,18 +134,17 @@ export default function AvailableCoursesPage() {
                     <button
                       onClick={() => handleEnrollClick(course)}
                       disabled={enrolling === course.id}
-                      className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all active:scale-[0.98] ${
-                        course.is_enrolled 
-                          ? 'bg-slate-50 text-slate-400 border border-slate-100 cursor-default'
-                          : 'bg-[#5048e5] hover:bg-[#5048e5]/90 text-white shadow-md shadow-[#5048e5]/20'
-                      }`}
+                      className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all active:scale-[0.98] ${course.is_enrolled
+                        ? 'bg-slate-50 text-slate-400 border border-slate-100 cursor-default'
+                        : 'bg-[#5048e5] hover:bg-[#5048e5]/90 text-white shadow-md shadow-[#5048e5]/20'
+                        }`}
                     >
                       {course.is_enrolled ? (
                         <><span className="material-symbols-outlined text-lg">check</span> Enrolled</>
                       ) : enrolling === course.id ? (
                         <><span className="material-symbols-outlined text-lg animate-spin">refresh</span> Enrolling...</>
                       ) : (
-                        <><span className="material-symbols-outlined text-lg">add_circle</span> Enroll Now</>
+                        <>Enroll</>
                       )}
                     </button>
                   </div>
@@ -177,7 +176,6 @@ export default function AvailableCoursesPage() {
                     Cancel
                   </button>
                   <button onClick={() => { setModal(null); doEnroll(modal.course); }} className="flex-1 px-5 py-3 text-sm font-bold bg-[#5048e5] hover:bg-[#5048e5]/90 text-white rounded-xl transition-colors shadow-lg shadow-[#5048e5]/30 cursor-pointer flex items-center justify-center gap-2">
-                    <span className="material-symbols-outlined text-lg">add_circle</span>
                     Enroll
                   </button>
                 </div>

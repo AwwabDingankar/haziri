@@ -31,12 +31,12 @@ export default function RegisterPage() {
   return (
     <div className="bg-white md:bg-[#f6f6f8] min-h-[100dvh] flex items-center justify-center p-0 md:p-6 lg:p-10 font-[Lexend]">
       <div className="flex w-full h-full max-w-[1200px] min-h-[100dvh] md:min-h-[700px] bg-white overflow-hidden md:rounded-3xl md:shadow-2xl md:shadow-[#5048e5]/10">
-        
+
         {/* Left Side Branding */}
         <div className="hidden lg:flex flex-col w-1/2 bg-[#5048e5]/10 p-12 relative overflow-hidden justify-between">
           <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-[#5048e5]/20 rounded-full blur-3xl"></div>
           <div className="absolute bottom-[-5%] left-[-5%] w-64 h-64 bg-[#5048e5]/15 rounded-full blur-2xl"></div>
-          
+
           <div className="relative z-10 flex items-center gap-3 text-[#5048e5] mb-8">
             <div className="size-10 flex items-center justify-center bg-[#5048e5] text-white rounded-xl">
               <svg className="size-6" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +45,7 @@ export default function RegisterPage() {
             </div>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900">Haziri</h2>
           </div>
-          
+
           <div className="relative z-10 flex-1 flex flex-col justify-center">
             {/* Enhanced, scaled-down graphic with floating animation (Consistent with Login) */}
             <div className="w-full max-w-[240px] aspect-square mx-auto mb-10 flex items-center justify-center relative animate-[bounce_4s_infinite]">
@@ -58,7 +58,7 @@ export default function RegisterPage() {
                 <div className="bg-[#5048e5]/10 rounded-2xl flex items-center justify-center"><span className="material-symbols-outlined text-[#5048e5] text-3xl">sync_alt</span></div>
               </div>
             </div>
-            
+
             <div className="text-center px-4">
               <h1 className="text-4xl font-black text-slate-900 leading-tight mb-4 tracking-tight">
                 Elevate your <span className="text-[#5048e5] block">experience.</span>
@@ -68,20 +68,12 @@ export default function RegisterPage() {
               </p>
             </div>
           </div>
-          
-          <div className="relative z-10 flex items-center justify-center gap-4 mt-8">
-            <div className="flex -space-x-4">
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=e2e8f0" alt="avatar" className="w-12 h-12 rounded-full border-4 border-white shadow-sm" />
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka&backgroundColor=cbd5e1" alt="avatar" className="w-12 h-12 rounded-full border-4 border-white shadow-sm" />
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John&backgroundColor=94a3b8" alt="avatar" className="w-12 h-12 rounded-full border-4 border-white shadow-sm" />
-            </div>
-            <p className="text-sm text-slate-600 font-semibold">Joined by <br/> <span className="text-[#5048e5]">2,000+ educators</span></p>
-          </div>
+
         </div>
-        
+
         {/* Right Side Form */}
         <div className="relative w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 md:px-16 py-20 lg:py-12 overflow-y-auto">
-          
+
           {/* Mobile Logo Header (Absolute Top-Left) */}
           <div className="absolute top-8 left-6 sm:left-10 lg:hidden flex items-center gap-3 text-[#5048e5]">
             <div className="size-10 flex items-center justify-center bg-[#5048e5] text-white rounded-xl shadow-md shadow-[#5048e5]/20">
@@ -91,71 +83,72 @@ export default function RegisterPage() {
             </div>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900">Haziri</h2>
           </div>
-          
+
           <div className="max-w-md w-full mx-auto mt-8 lg:mt-0">
 
             <div className="mb-8 text-left">
               <h2 className="text-3xl font-black text-slate-900 mb-2">Student Registration</h2>
               <p className="text-slate-500 font-medium">Join your classes and track your attendance.</p>
             </div>
-            
+
             {error && (
               <div className="bg-red-50 border border-red-100 text-red-700 text-sm rounded-xl px-4 py-3 mb-6">
                 {error}
               </div>
             )}
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              
 
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700 ml-1">Gender</label>
-                <div className="grid grid-cols-2 gap-4">
-                  <label className="cursor-pointer">
-                    <input className="peer hidden" name="gender" type="radio" value="male" checked={form.gender === 'male'} onChange={() => setForm({ ...form, gender: 'male' })} required />
-                    <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
-                      <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">man</span>
-                      <span className="text-slate-700 font-bold text-sm">Male</span>
-                    </div>
-                  </label>
-                  <label className="cursor-pointer">
-                    <input className="peer hidden" name="gender" type="radio" value="female" checked={form.gender === 'female'} onChange={() => setForm({ ...form, gender: 'female' })} required />
-                    <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
-                      <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">woman</span>
-                      <span className="text-slate-700 font-bold text-sm">Female</span>
-                    </div>
-                  </label>
-                </div>
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2 md:col-span-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Full Name</label>
                   <div className="relative">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">person</span>
-                    <input 
-                      className="w-full pl-12 pr-4 h-12 bg-slate-50 border-2 border-slate-100 rounded-xl focus:bg-white focus:ring-4 focus:ring-[#5048e5]/10 focus:border-[#5048e5] outline-none transition-all placeholder:text-slate-400 text-slate-900 font-medium" 
-                      placeholder="Alex Johnson" 
+                    <input
+                      className="w-full pl-12 pr-4 h-12 bg-slate-50 border-2 border-slate-100 rounded-xl focus:bg-white focus:ring-4 focus:ring-[#5048e5]/10 focus:border-[#5048e5] outline-none transition-all placeholder:text-slate-400 text-slate-900 font-medium"
+                      placeholder="Alex Johnson"
                       type="text"
                       value={form.name} onChange={update('name')} required
                     />
                   </div>
                 </div>
-                
+
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-sm font-bold text-slate-700 ml-1">Gender</label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <label className="cursor-pointer">
+                      <input className="peer hidden" name="gender" type="radio" value="male" checked={form.gender === 'male'} onChange={() => setForm({ ...form, gender: 'male' })} required />
+                      <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
+                        <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">man</span>
+                        <span className="text-slate-700 font-bold text-sm">Male</span>
+                      </div>
+                    </label>
+                    <label className="cursor-pointer">
+                      <input className="peer hidden" name="gender" type="radio" value="female" checked={form.gender === 'female'} onChange={() => setForm({ ...form, gender: 'female' })} required />
+                      <div className="flex items-center justify-center gap-2 h-12 rounded-xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 peer-checked:border-[#5048e5] peer-checked:bg-[#5048e5]/5 transition-all">
+                        <span className="material-symbols-outlined text-slate-400 peer-checked:text-[#5048e5] text-lg">woman</span>
+                        <span className="text-slate-700 font-bold text-sm">Female</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+
                 <div className="space-y-2 md:col-span-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Email Address</label>
                   <div className="relative">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">mail</span>
-                    <input 
-                      className="w-full pl-12 pr-4 h-12 bg-slate-50 border-2 border-slate-100 rounded-xl focus:bg-white focus:ring-4 focus:ring-[#5048e5]/10 focus:border-[#5048e5] outline-none transition-all placeholder:text-slate-400 text-slate-900 font-medium" 
-                      placeholder="your@email.com" 
+                    <input
+                      className="w-full pl-12 pr-4 h-12 bg-slate-50 border-2 border-slate-100 rounded-xl focus:bg-white focus:ring-4 focus:ring-[#5048e5]/10 focus:border-[#5048e5] outline-none transition-all placeholder:text-slate-400 text-slate-900 font-medium"
+                      placeholder="your@email.com"
                       type="email"
                       value={form.email} onChange={update('email')} required
                     />
                   </div>
                 </div>
-                
-                <div className="space-y-2 md:col-span-2">
+
+                {/* <div className="space-y-2 md:col-span-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Phone Number</label>
                   <div className="relative">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">call</span>
@@ -166,43 +159,49 @@ export default function RegisterPage() {
                       value={form.phone_number} onChange={update('phone_number')}
                     />
                   </div>
-                </div>
-                
+                </div> */}
+
                 <div className="space-y-2 md:col-span-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Create Password</label>
                   <div className="relative">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock</span>
-                    <input 
-                      className="w-full pl-12 pr-4 h-12 bg-slate-50 border-2 border-slate-100 rounded-xl focus:bg-white focus:ring-4 focus:ring-[#5048e5]/10 focus:border-[#5048e5] outline-none transition-all placeholder:text-slate-400 text-slate-900 font-medium" 
-                      placeholder="••••••••" 
+                    <input
+                      className="w-full pl-12 pr-4 h-12 bg-slate-50 border-2 border-slate-100 rounded-xl focus:bg-white focus:ring-4 focus:ring-[#5048e5]/10 focus:border-[#5048e5] outline-none transition-all placeholder:text-slate-400 text-slate-900 font-medium"
+                      placeholder="••••••••"
                       type="password" minLength={6}
                       value={form.password} onChange={update('password')} required
                     />
                   </div>
                 </div>
               </div>
-              
+
               <div className="pt-4">
-                <button 
-                  className="w-full h-14 bg-[#5048e5] hover:bg-[#4038c5] text-white font-bold rounded-xl shadow-lg shadow-[#5048e5]/25 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100" 
+                <button
+                  className="w-full h-14 bg-[#5048e5] hover:bg-[#4038c5] text-white font-bold rounded-xl shadow-lg shadow-[#5048e5]/25 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100"
                   type="submit"
                   disabled={loading}
                 >
                   {loading ? 'Creating Account...' : 'Create Account'}
                 </button>
               </div>
-              
+
               <div className="flex items-center justify-center gap-2 pt-4">
                 <p className="text-slate-500 font-medium text-sm">Already have an account?</p>
                 <Link className="text-[#5048e5] font-bold text-sm hover:underline" to="/login">Sign in instead</Link>
               </div>
             </form>
-            
-            <div className="mt-8 pt-6 border-t-2 border-slate-100 flex items-center justify-between text-xs text-slate-400 font-bold tracking-wider">
-              <span>© 2024 Haziri Inc.</span>
-              <div className="flex gap-6">
-                <a className="hover:text-[#5048e5] transition-colors" href="#">Privacy</a>
-                <a className="hover:text-[#5048e5] transition-colors" href="#">Terms</a>
+
+            <div className="flex flex-col items-center justify-center  pt-3">
+              <div className="flex items-center gap-1 mt-1">
+                <a href="https://www.linkedin.com/in/awwab-dingankar-315a06209" target="_blank" rel="noopener noreferrer" className="size-9 rounded-full bg-white border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-[#0A66C2] hover:border-[#0A66C2]/30 hover:bg-[#0A66C2]/5 transition-all shadow-sm" title="LinkedIn">
+                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                </a>
+                <a href="mailto:awwabsalim9@gmail.com" className="size-9 rounded-full bg-white border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-[#EA4335] hover:border-[#EA4335]/30 hover:bg-[#EA4335]/5 transition-all shadow-sm" title="Email">
+                  <span className="material-symbols-outlined text-[18px]">mail</span>
+                </a>
+                <a href="tel:+919834887447" className="size-9 rounded-full bg-white border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-[#34A853] hover:border-[#34A853]/30 hover:bg-[#34A853]/5 transition-all shadow-sm" title="Phone">
+                  <span className="material-symbols-outlined text-[18px]">call</span>
+                </a>
               </div>
             </div>
           </div>

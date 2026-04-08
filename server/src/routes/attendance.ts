@@ -42,36 +42,53 @@ router.post('/mark', requireRole('student'), async (req: AuthRequest, res: Respo
     );
     if (!enrollRows[0]) return res.status(403).json({ error: 'You are not enrolled in this course' });
 
-    // 3. Check device fingerprint not already used for this session
+    // 3. Check device fingerprint has not already marked *successfully*
     const { rows: deviceRows } = await pool.query(
-      'SELECT id FROM attendance WHERE session_id = $1 AND device_fingerprint = $2',
+      "SELECT id FROM attendance WHERE session_id = $1 AND device_fingerprint = $2 AND status = 'present'",
       [sessionId, deviceFingerprint]
     );
     if (deviceRows.length > 0) {
       return res.status(409).json({ error: 'Attendance already marked from this device' });
     }
 
-    // 4. Check student hasn't already marked for this session
+    // 4. Check student hasn't already marked *successfully*
     const { rows: studentRows } = await pool.query(
-      'SELECT id FROM attendance WHERE session_id = $1 AND student_id = $2',
+      "SELECT id FROM attendance WHERE session_id = $1 AND student_id = $2 AND status = 'present'",
       [sessionId, req.user!.id]
     );
     if (studentRows.length > 0) {
       return res.status(409).json({ error: 'You have already marked attendance for this session' });
     }
 
+    // 4.5. Clean slate: Delete any old REJECTED records for this student or device to prevent UNIQUE constraint errors on retry
+    await pool.query(
+      "DELETE FROM attendance WHERE session_id = $1 AND (student_id = $2 OR device_fingerprint = $3) AND status = 'rejected'",
+      [sessionId, req.user!.id, deviceFingerprint]
+    );
+
     // 5. Haversine distance check
-    const distance = haversineDistance(
+    let distance = haversineDistance(
       parseFloat(session.latitude),
       parseFloat(session.longitude),
       latitude,
       longitude
     );
 
-    const withinRange = distance <= session.radius_meters;
+    let withinRange = distance <= session.radius_meters;
+
+    // Demo Course logic (50% success/failure simulation)
+    if (session.course_id === '00000000-0000-0000-0000-000000000002') {
+      withinRange = Math.random() >= 0.5;
+      if (!withinRange) {
+        distance = session.radius_meters + Math.floor(Math.random() * 100) + 10; // fake out of range
+      } else {
+        distance = Math.floor(Math.random() * session.radius_meters); // fake in range
+      }
+    }
+
     const status = withinRange ? 'present' : 'rejected';
 
-    // 6. Insert attendance record
+    // 6. Insert new attendance record
     const { rows: attendanceRows } = await pool.query(
       `INSERT INTO attendance (session_id, student_id, device_fingerprint, latitude, longitude, distance_meters, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,

@@ -53,3 +53,39 @@ FROM (
     ('Dr. Priya Nair', 'CS501', 'Database Management Systems', 'https://images.unsplash.com/photo-1581726707445-75cbe4efc586?auto=format&fit=crop&w=800&q=80')
 ) AS c(teacher_name, code, title, cover_image_url)
 JOIN new_teachers t ON t.name = c.teacher_name;
+
+-- 4. Insert Demo System Teacher
+INSERT INTO users (id, name, email, password_hash, role, gender)
+VALUES (
+  '00000000-0000-0000-0000-000000000001',
+  'Haziri Demo',
+  'demo@haziri.edu',
+  '$2a$12$tU4K9O4Zz6X.T0jV1N.Z9e2S2M4A1Y.qJ4mX9L2W1mP4E.N8Q1Z.q',
+  'teacher',
+  'other'
+);
+
+-- 5. Insert Demo Course
+INSERT INTO courses (id, teacher_id, code, title, description, cover_image_url, status)
+VALUES (
+  '00000000-0000-0000-0000-000000000002',
+  '00000000-0000-0000-0000-000000000001',
+  'DEMO101',
+  'Demo Course — Try Attendance',
+  'A sandbox course to experience the GPS attendance flow. Mark attendance here to see how it works!',
+  'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80',
+  'active'
+);
+
+-- 6. Insert Always-Active Demo Session (never ends)
+INSERT INTO sessions (id, course_id, teacher_id, latitude, longitude, radius_meters, started_at, ended_at)
+VALUES (
+  '00000000-0000-0000-0000-000000000003',
+  '00000000-0000-0000-0000-000000000002',
+  '00000000-0000-0000-0000-000000000001',
+  19.07600000,
+  72.87770000,
+  50,
+  NOW(),
+  NULL
+);

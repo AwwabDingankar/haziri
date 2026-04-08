@@ -5,6 +5,9 @@ import { authMiddleware, requireRole, AuthRequest } from '../middleware/auth';
 const router = Router();
 router.use(authMiddleware);
 
+// Demo Course fixed ID (matches seed.sql)
+const DEMO_COURSE_ID = '00000000-0000-0000-0000-000000000002';
+
 // ─── Teacher: Own Courses ───────────────────────────────────────────
 // GET /api/courses — teacher's own courses
 router.get('/', requireRole('teacher'), async (req: AuthRequest, res: Response) => {
@@ -134,7 +137,7 @@ router.get('/available', requireRole('student'), async (req: AuthRequest, res: R
      FROM courses c
      JOIN users u ON u.id = c.teacher_id
      LEFT JOIN enrollments e ON e.course_id = c.id
-     WHERE c.status = 'active'
+     WHERE c.status = 'active' AND c.code != 'DEMO101'
      GROUP BY c.id, u.name
      ORDER BY c.created_at DESC`,
     [req.user!.id]
@@ -170,10 +173,30 @@ router.post('/:id/enroll', requireRole('student'), async (req: AuthRequest, res:
     );
     if (!courseRows[0]) return res.status(404).json({ error: 'Course not found or not active' });
 
+    // Check if this is the student's first-ever enrollment
+    const { rows: existingEnrollments } = await pool.query(
+      'SELECT id FROM enrollments WHERE student_id = $1 LIMIT 1',
+      [req.user!.id]
+    );
+    const isFirstEnrollment = existingEnrollments.length === 0;
+
     await pool.query(
       'INSERT INTO enrollments (course_id, student_id) VALUES ($1, $2)',
       [req.params.id, req.user!.id]
     );
+
+    // Auto-enroll in Demo Course on first enrollment
+    if (isFirstEnrollment) {
+      try {
+        await pool.query(
+          'INSERT INTO enrollments (course_id, student_id) VALUES ($1, $2)',
+          [DEMO_COURSE_ID, req.user!.id]
+        );
+      } catch (_) {
+        // Silently ignore if already enrolled in demo (e.g. race condition)
+      }
+    }
+
     res.status(201).json({ message: 'Enrolled successfully' });
   } catch (err: any) {
     if (err.code === '23505') return res.status(409).json({ error: 'Already enrolled in this course' });
